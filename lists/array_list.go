@@ -1,3 +1,6 @@
 package lists
 
-type ArrayList struct{}
+type ArrayList[T comparable] struct {
+	size   int
+	values []T
+}
