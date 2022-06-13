@@ -1,3 +1,4 @@
 package maps
 
-type HashMap struct{}
+type HashMap[K comparable, V any] struct {
+}

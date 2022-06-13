@@ -1,6 +1,7 @@
 package lists
 
 import (
+	"fmt"
 	"testing"
 )
 
@@ -10,5 +11,9 @@ func TestArrayList(t *testing.T) {
 	list.Add(1)
 	list.Add(2)
 	list.Add(3)
-	t.Log(list.Size())
+	t.Log(list.Values())
+	list.Range(func(i int, obj int) bool {
+		fmt.Println(i, obj)
+		return true
+	})
 }

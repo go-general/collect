@@ -2,7 +2,6 @@ package lists
 
 func NewArrayList[T comparable](size int) List[T] {
 	return &ArrayList[T]{
-		size:   0,
 		values: make([]T, 0, size),
 	}
 }
