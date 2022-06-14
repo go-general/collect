@@ -8,10 +8,10 @@ type Set[T comparable] interface {
 	collect.Collector[T]
 
 	// add the specified element to this set if it is not already present
-	Add(obj T) bool
+	Add(obj ...T) bool
 
-	// addAll adds all of the elements in the specified collection to this set if they're not already present
-	AddAll(set Set[T]) bool
+	// Merge the specified sets into this set.
+	Merge(...Set[T]) bool
 
 	// Returns true if this set contains the specified element.
 	Contains(obj T) bool

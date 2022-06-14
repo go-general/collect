@@ -1,5 +1,5 @@
 package sets
 
-func NewHashSet() *HashSet {
+func NewHashSet[K comparable]() *HashSet[K] {
 	return nil
 }
