@@ -6,8 +6,8 @@ import (
 	"testing"
 )
 
-func newHashMapFromMap[K comparable, V any](m map[K]V) *HashMap[K, V] {
-	return &HashMap[K, V]{
+func newHashMapFromMap[K comparable, V any](m map[K]V) *hashMap[K, V] {
+	return &hashMap[K, V]{
 		m:  m,
 		mu: &sync.RWMutex{},
 	}
@@ -32,7 +32,7 @@ func TestHashMap_Clear(t *testing.T) {
 func TestHashMap_ContainsKey(t *testing.T) {
 	tests := []struct {
 		name string
-		hm   *HashMap[string, int64]
+		hm   *hashMap[string, int64]
 		args string
 		want bool
 	}{
@@ -55,7 +55,7 @@ func TestHashMap_ContainsKey(t *testing.T) {
 func TestHashMap_ContainsValue(t *testing.T) {
 	tests := []struct {
 		name string
-		hm   *HashMap[string, string]
+		hm   *hashMap[string, string]
 		args string
 		want bool
 	}{
@@ -83,7 +83,7 @@ func TestHashMap_Get(t *testing.T) {
 	}
 	tests := []struct {
 		name string
-		hm   *HashMap[string, int64]
+		hm   *hashMap[string, int64]
 		args args[string, int64]
 	}{
 		{
@@ -114,7 +114,7 @@ func TestHashMap_Get(t *testing.T) {
 func TestHashMap_IsEmpty(t *testing.T) {
 	tests := []struct {
 		name string
-		hm   *HashMap[string, int64]
+		hm   *hashMap[string, int64]
 		want bool
 	}{
 		{

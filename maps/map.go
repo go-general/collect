@@ -1,7 +1,7 @@
 package maps
 
 import (
-	"github.com/go-general/collect/lists"
+	"github.com/go-general/collect/sets"
 )
 
 type Map[K comparable, V any] interface {
@@ -33,10 +33,11 @@ type Map[K comparable, V any] interface {
 	Size() int
 
 	// 返回此映射中包含的键的 Set 视图
-	Keys() lists.List[K]
+	Keys() sets.Set[K]
 
 	// 返回此映射中包含的值的 Collection 视图
-	Values() lists.List[V]
+	// TODO: use a list instead of a slice
+	Values() []V
 
 	Range(func(K, V) bool)
 }

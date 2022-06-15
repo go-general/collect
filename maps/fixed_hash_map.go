@@ -1,7 +1,7 @@
 package maps
 
 type FixedHashMap[K comparable, V any] struct {
-	*HashMap[K, V]
+	*hashMap[K, V]
 	maxSize int // max size of the map
 }
 
@@ -10,7 +10,7 @@ func (h *FixedHashMap[K, V]) Put(k K, v V) bool {
 		return false
 	}
 
-	return h.HashMap.Put(k, v)
+	return h.hashMap.Put(k, v)
 }
 
 func (h *FixedHashMap[K, V]) Merge(m ...Map[K, V]) bool {
@@ -23,5 +23,5 @@ func (h *FixedHashMap[K, V]) Merge(m ...Map[K, V]) bool {
 		return false
 	}
 
-	return h.HashMap.Merge(m...)
+	return h.hashMap.Merge(m...)
 }
