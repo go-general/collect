@@ -1,5 +1,17 @@
 package sets
 
-func NewHashSet[K comparable]() *HashSet[K] {
-	return nil
+import (
+	"github.com/go-general/collect/types"
+)
+
+func NewHashSet[K comparable]() Set[K] {
+	return &hashSet[K]{
+		m: make(map[K]bool),
+	}
+}
+
+func NewSortedSet[K types.Ordered]() Set[K] {
+	return &sortedSet[K]{
+		hashSet: newHashSet[K](),
+	}
 }
