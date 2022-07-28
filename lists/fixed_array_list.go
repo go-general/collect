@@ -1,6 +1,6 @@
 package lists
 
-type FixedArrayList[T comparable] struct {
+type fixedArrayList[T comparable] struct {
 	size   int
 	values []T
 }

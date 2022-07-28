@@ -9,12 +9,6 @@ type hashMap[K comparable, V any] struct {
 	m map[K]V
 }
 
-func newHashMap[K comparable, V any]() *hashMap[K, V] {
-	return &hashMap[K, V]{
-		m: make(map[K]V),
-	}
-}
-
 // 从此映射中移除所有映射关系
 func (h *hashMap[K, V]) Clear() {
 	h.m = make(map[K]V)

@@ -6,7 +6,7 @@ import (
 	"github.com/go-general/collect/maps"
 )
 
-func main() {
+func Maps() {
 	m := maps.NewHashMap[string, int64]()
 	m.Put("a", 1)
 	m.Put("b", 2)

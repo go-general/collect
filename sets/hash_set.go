@@ -2,21 +2,7 @@ package sets
 
 // hashSet is a set implementation that uses a hash map to store its elements.It implements interface Set.
 type hashSet[T comparable] struct {
-	m map[T]bool
-}
-
-func newHashSet[T comparable]() *hashSet[T] {
-	return &hashSet[T]{
-		m: make(map[T]bool),
-	}
-}
-
-func newHashSetFromSlice[T comparable](slice []T) *hashSet[T] {
-	set := newHashSet[T]()
-	for _, v := range slice {
-		set.Add(v)
-	}
-	return set
+	m map[T]struct{}
 }
 
 func (h *hashSet[T]) IsEmpty() bool {
@@ -28,7 +14,7 @@ func (h *hashSet[T]) Size() int {
 }
 
 func (h *hashSet[T]) Clear() {
-	h.m = make(map[T]bool)
+	h.m = make(map[T]struct{})
 }
 
 func (h *hashSet[T]) Values() []T {
@@ -43,7 +29,7 @@ func (h *hashSet[T]) Values() []T {
 func (h *hashSet[T]) Add(t ...T) bool {
 	for _, v := range t {
 		if _, ok := h.m[v]; !ok {
-			h.m[v] = true
+			h.m[v] = struct{}{}
 		}
 	}
 
@@ -53,7 +39,7 @@ func (h *hashSet[T]) Add(t ...T) bool {
 func (h *hashSet[T]) Merge(s ...Set[T]) bool {
 	for _, v := range s {
 		v.Range(func(t T) bool {
-			h.m[t] = true
+			h.m[t] = struct{}{}
 			return true
 		})
 	}

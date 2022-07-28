@@ -1,3 +1,3 @@
 package lists
 
-type LinkedList struct{}
+type linkedList struct{}

@@ -10,12 +10,6 @@ type sortedSet[T types.Ordered] struct {
 	*hashSet[T]
 }
 
-func newSortedSet[T types.Ordered]() *sortedSet[T] {
-	return &sortedSet[T]{
-		hashSet: newHashSet[T](),
-	}
-}
-
 func (s *sortedSet[T]) Range(f func(T) bool) {
 	values := s.Values()
 	sort.Slice(values, func(i, j int) bool {
