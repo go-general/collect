@@ -4,7 +4,7 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/go-general/collect/types"
+	"github.com/go-general/collect/internal/types"
 )
 
 func Test_sortedSet_Values(t *testing.T) {

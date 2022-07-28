@@ -3,7 +3,7 @@ package sets
 import (
 	"sort"
 
-	"github.com/go-general/collect/types"
+	"github.com/go-general/collect/internal/types"
 )
 
 type sortedSet[T types.Ordered] struct {

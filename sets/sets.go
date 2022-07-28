@@ -1,7 +1,7 @@
 package sets
 
 import (
-	"github.com/go-general/collect/types"
+	"github.com/go-general/collect/internal/types"
 )
 
 func NewHashSet[K comparable]() Set[K] {

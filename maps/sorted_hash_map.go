@@ -1,8 +1,8 @@
 package maps
 
 import (
+	"github.com/go-general/collect/internal/types"
 	"github.com/go-general/collect/sets"
-	"github.com/go-general/collect/types"
 )
 
 type SortedHashMap[K types.Ordered, V any] struct {

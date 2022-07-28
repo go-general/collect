@@ -2,14 +2,12 @@ package maps
 
 import (
 	"reflect"
-	"sync"
 	"testing"
 )
 
 func newHashMapFromMap[K comparable, V any](m map[K]V) *hashMap[K, V] {
 	return &hashMap[K, V]{
-		m:  m,
-		mu: &sync.RWMutex{},
+		m: m,
 	}
 }
 

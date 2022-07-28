@@ -1,8 +1,8 @@
 package maps
 
 import (
+	"github.com/go-general/collect/internal/types"
 	"github.com/go-general/collect/sets"
-	"github.com/go-general/collect/types"
 )
 
 func NewHashMap[K comparable, V any]() Map[K, V] {

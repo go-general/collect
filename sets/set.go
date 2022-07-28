@@ -1,11 +1,11 @@
 package sets
 
 import (
-	"github.com/go-general/collect"
+	"github.com/go-general/collect/internal/basic"
 )
 
 type Set[T comparable] interface {
-	collect.Collector[T]
+	basic.Collector[T]
 
 	// add the specified element to this set if it is not already present
 	Add(...T) bool
