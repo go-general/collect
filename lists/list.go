@@ -1,11 +1,11 @@
 package lists
 
 import (
-	"github.com/go-general/collect"
+	"github.com/go-general/collect/internal/basic"
 )
 
 type List[T any] interface {
-	collect.Collector[T]
+	basic.Collector[T]
 
 	// 添加元素到集合
 	Add(obj T) bool

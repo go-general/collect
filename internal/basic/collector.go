@@ -1,4 +1,4 @@
-package collect
+package basic
 
 type Collector[T any] interface {
 	IsEmpty() bool
