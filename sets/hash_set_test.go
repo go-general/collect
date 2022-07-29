@@ -4,30 +4,10 @@ import (
 	"testing"
 )
 
-func TestHashSet_Difference(t *testing.T) {
-	type testCase[T comparable] struct {
-		name string
-		hs   []T
-		args []T
-		want []T
-	}
-	tests := []testCase[string]{
-		{
-			name: "test",
-			hs:   []string{"a", "b", "c", "d", "e", "f"},
-			args: []string{"b", "c", "d", "e"},
-			want: []string{"a", "f"},
-		},
-		{
-			name: "test2",
-			hs:   []string{"1", "2", "3"},
-			args: []string{"2", "3", "4"},
-			want: []string{"1", "4"},
-		},
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-
-		})
-	}
+func TestHashSet(t *testing.T) {
+	set := NewHashSet[int]()
+	set.Add(1)
+	set.Add(2)
+	set.Add(3)
+	t.Log(set.Size())
 }

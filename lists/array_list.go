@@ -31,8 +31,8 @@ func (l *arrayList[T]) AddAll(list List[T]) bool {
 }
 
 func (l *arrayList[T]) Contains(obj T) bool {
-	for _, v := range l.values {
-		if v == obj {
+	for idx := range l.values {
+		if l.values[idx] == obj {
 			return true
 		}
 	}
@@ -40,8 +40,8 @@ func (l *arrayList[T]) Contains(obj T) bool {
 }
 
 func (l *arrayList[T]) Remove(obj T) bool {
-	for idx, v := range l.values {
-		if v == obj {
+	for idx := range l.values {
+		if l.values[idx] == obj {
 			l.values = append(l.values[:idx], l.values[idx+1:]...)
 			return true
 		}
@@ -49,20 +49,22 @@ func (l *arrayList[T]) Remove(obj T) bool {
 	return false
 }
 
-func (l *arrayList[T]) Get(index int) *T {
-	if len(l.values) < index {
-		return nil
+func (l *arrayList[T]) Get(index int) (T, bool) {
+	var val T
+	if index < 0 || index >= l.Size() {
+		return val, false
 	}
-	return &l.values[index]
+	return l.values[index], true
 }
 
-func (l *arrayList[T]) Set(index int, obj T) *T {
-	if len(l.values) < index {
-		return nil
+func (l *arrayList[T]) Set(index int, obj T) (T, bool) {
+	var val T
+	if index < 0 || index >= l.Size() {
+		return val, false
 	}
 	old := l.values[index]
 	l.values[index] = obj
-	return &old
+	return old, true
 }
 
 func (l *arrayList[T]) Range(f func(index int, obj T) bool) {

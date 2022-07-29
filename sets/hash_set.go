@@ -19,6 +19,7 @@ func (h *hashSet[T]) Clear() {
 
 func (h *hashSet[T]) Values() []T {
 	values := make([]T, 0, len(h.m))
+
 	for k := range h.m {
 		values = append(values, k)
 	}
@@ -28,9 +29,7 @@ func (h *hashSet[T]) Values() []T {
 
 func (h *hashSet[T]) Add(t ...T) bool {
 	for _, v := range t {
-		if _, ok := h.m[v]; !ok {
-			h.m[v] = struct{}{}
-		}
+		h.m[v] = struct{}{}
 	}
 
 	return true

@@ -1,11 +1,9 @@
 package basic
 
-type Collector[T any] interface {
+type Collector interface {
 	IsEmpty() bool
 
 	Size() int
 
 	Clear()
-
-	Values() []T
 }

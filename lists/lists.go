@@ -5,25 +5,21 @@ import (
 )
 
 type List[T any] interface {
-	basic.Collector[T]
+	basic.Collector
 
-	// 添加元素到集合
+	Values() []T
+
 	Add(obj T) bool
 
-	// 存放⼀个集合
 	AddAll(list List[T]) bool
 
-	// 查找集合中的元素
 	Contains(obj T) bool
 
-	// 删除⼀个集合中的元素
 	Remove(obj T) bool
 
-	// 根据索引取得元素
-	Get(index int) *T
+	Get(index int) (T, bool)
 
-	// 替换元素，index为要替换元素下标 element为要替换元素
-	Set(index int, obj T) *T
+	Set(index int, obj T) (T, bool)
 
 	Range(func(index int, obj T) bool)
 }
@@ -31,15 +27,5 @@ type List[T any] interface {
 func NewArrayList[T comparable](size int) List[T] {
 	return &arrayList[T]{
 		values: make([]T, 0, size),
-	}
-}
-
-func NewImmutableArrayList[T comparable](values ...T) List[T] {
-	vals := make([]T, 0, len(values))
-	for _, v := range values {
-		vals = append(vals, v)
-	}
-	return &immutableArrayList[T]{
-		values: vals,
 	}
 }
