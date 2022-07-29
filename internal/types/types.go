@@ -1,5 +1,3 @@
-// Package types defines a set of useful constraints to be used
-// with type parameters.
 package types
 
 // Signed is a constraint that permits any signed integer type.
