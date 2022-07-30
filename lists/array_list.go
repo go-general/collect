@@ -20,14 +20,14 @@ func (l *arrayList[T]) Values() []T {
 	return l.values
 }
 
-func (l *arrayList[T]) Add(obj T) bool {
-	l.values = append(l.values, obj)
-	return true
+func (l *arrayList[T]) Add(obj ...T) {
+	for _, val := range obj {
+		l.values = append(l.values, val)
+	}
 }
 
-func (l *arrayList[T]) AddAll(list List[T]) bool {
+func (l *arrayList[T]) AddAll(list List[T]) {
 	l.values = append(l.values, list.Values()...)
-	return true
 }
 
 func (l *arrayList[T]) Contains(obj T) bool {
@@ -50,18 +50,19 @@ func (l *arrayList[T]) Remove(obj T) bool {
 }
 
 func (l *arrayList[T]) Get(index int) (T, bool) {
-	var val T
 	if index < 0 || index >= l.Size() {
+		var val T
 		return val, false
 	}
 	return l.values[index], true
 }
 
 func (l *arrayList[T]) Set(index int, obj T) (T, bool) {
-	var val T
 	if index < 0 || index >= l.Size() {
+		var val T
 		return val, false
 	}
+
 	old := l.values[index]
 	l.values[index] = obj
 	return old, true

@@ -19,31 +19,16 @@ func (h *hashSet[T]) Clear() {
 
 func (h *hashSet[T]) Values() []T {
 	values := make([]T, 0, len(h.m))
-
 	for k := range h.m {
 		values = append(values, k)
 	}
-
 	return values
 }
 
-func (h *hashSet[T]) Add(t ...T) bool {
+func (h *hashSet[T]) Add(t ...T) {
 	for _, v := range t {
 		h.m[v] = struct{}{}
 	}
-
-	return true
-}
-
-func (h *hashSet[T]) Merge(s ...Set[T]) bool {
-	for _, v := range s {
-		v.Range(func(t T) bool {
-			h.m[t] = struct{}{}
-			return true
-		})
-	}
-
-	return true
 }
 
 func (h *hashSet[T]) Contains(t T) bool {
@@ -59,6 +44,15 @@ func (h *hashSet[T]) Remove(t T) bool {
 
 	delete(h.m, t)
 	return true
+}
+
+func (h *hashSet[T]) Merge(s ...Set[T]) {
+	for _, v := range s {
+		v.Range(func(t T) bool {
+			h.m[t] = struct{}{}
+			return true
+		})
+	}
 }
 
 func (h *hashSet[T]) Range(f func(obj T) bool) {

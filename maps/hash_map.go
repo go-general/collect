@@ -26,12 +26,16 @@ func (h *hashMap[K, V]) Get(key K) (V, bool) {
 	return val, ok
 }
 
-func (h *hashMap[K, V]) Put(key K, val V) {
+func (h *hashMap[K, V]) Put(key K, val V) (V, bool) {
+	oldVal, ok := h.m[key]
 	h.m[key] = val
+	return oldVal, ok
 }
 
-func (h *hashMap[K, V]) Remove(key K) {
+func (h *hashMap[K, V]) Remove(key K) (V, bool) {
+	oldVal, ok := h.m[key]
 	delete(h.m, key)
+	return oldVal, ok
 }
 
 func (h *hashMap[K, V]) Keys() []K {
@@ -48,4 +52,12 @@ func (h *hashMap[K, V]) Values() []V {
 		values = append(values, val)
 	}
 	return values
+}
+
+func (h *hashMap[K, V]) Range(f func(k K, v V) bool) {
+	for k, v := range h.m {
+		if !f(k, v) {
+			break
+		}
+	}
 }
