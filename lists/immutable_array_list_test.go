@@ -4,11 +4,8 @@ import (
 	"testing"
 )
 
-func TestArrayList(t *testing.T) {
-	list := NewArrayList[int](10)
-	list.Add(1)
-	list.Add(2)
-	list.Add(3)
+func TestImmutableArrayList(t *testing.T) {
+	list := NewImmutableArrayList[int](1, 2, 3, 4, 5)
 	t.Log(list.Values())
 	list.Range(func(i int, obj int) bool {
 		t.Log(i, obj)

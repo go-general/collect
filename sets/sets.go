@@ -21,11 +21,11 @@ type Set[T comparable] interface {
 	// return true if value exists, false if not exists.
 	Remove(T) bool
 
-	// Merge merges all values to this set.
-	Merge(...Set[T])
-
 	// Range ranges value in set.
 	Range(func(obj T) bool)
+
+	// Merge merges all values to this set.
+	Merge(...Set[T]) Set[T]
 
 	Union(Set[T]) Set[T]
 
@@ -36,8 +36,19 @@ type Set[T comparable] interface {
 	IsSubsetOf(Set[T]) bool
 }
 
-func NewHashSet[K comparable]() Set[K] {
-	return &hashSet[K]{
-		m: make(map[K]struct{}),
+func NewHashSet[T comparable]() Set[T] {
+	return &hashSet[T]{
+		m: make(map[T]struct{}),
+	}
+}
+
+func NewImmutableHashSet[T comparable](values ...T) Set[T] {
+	m := make(map[T]struct{}, len(values))
+	for _, val := range values {
+		m[val] = struct{}{}
+	}
+
+	return &hashSet[T]{
+		m: m,
 	}
 }

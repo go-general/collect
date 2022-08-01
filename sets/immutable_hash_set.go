@@ -1,23 +1,21 @@
 package sets
 
-// hashSet is a set implementation that uses a hash map to store its elements.It implements interface Set.
-type hashSet[T comparable] struct {
+type immutableHashSet[T comparable] struct {
 	m map[T]struct{}
 }
 
-func (h *hashSet[T]) IsEmpty() bool {
+func (h *immutableHashSet[T]) IsEmpty() bool {
 	return len(h.m) == 0
 }
 
-func (h *hashSet[T]) Size() int {
+func (h *immutableHashSet[T]) Size() int {
 	return len(h.m)
 }
 
-func (h *hashSet[T]) Clear() {
-	h.m = make(map[T]struct{})
+func (h *immutableHashSet[T]) Clear() {
 }
 
-func (h *hashSet[T]) Values() []T {
+func (h *immutableHashSet[T]) Values() []T {
 	values := make([]T, 0, len(h.m))
 	for k := range h.m {
 		values = append(values, k)
@@ -25,28 +23,24 @@ func (h *hashSet[T]) Values() []T {
 	return values
 }
 
-func (h *hashSet[T]) Add(t ...T) {
-	for _, v := range t {
-		h.m[v] = struct{}{}
-	}
+func (h *immutableHashSet[T]) Add(t ...T) {
 }
 
-func (h *hashSet[T]) Contains(t T) bool {
+func (h *immutableHashSet[T]) Contains(t T) bool {
 	_, ok := h.m[t]
 	return ok
 }
 
-func (h *hashSet[T]) Remove(t T) bool {
+func (h *immutableHashSet[T]) Remove(t T) bool {
 	_, ok := h.m[t]
 	if !ok {
 		return false
 	}
 
-	delete(h.m, t)
 	return true
 }
 
-func (h *hashSet[T]) Range(f func(obj T) bool) {
+func (h *immutableHashSet[T]) Range(f func(obj T) bool) {
 	for k := range h.m {
 		if !f(k) {
 			break
@@ -54,7 +48,7 @@ func (h *hashSet[T]) Range(f func(obj T) bool) {
 	}
 }
 
-func (h *hashSet[T]) Merge(s ...Set[T]) Set[T] {
+func (h *immutableHashSet[T]) Merge(s ...Set[T]) Set[T] {
 	merged := NewHashSet[T]()
 
 	h.Range(func(obj T) bool {
@@ -72,7 +66,7 @@ func (h *hashSet[T]) Merge(s ...Set[T]) Set[T] {
 	return merged
 }
 
-func (h *hashSet[T]) Union(s Set[T]) Set[T] {
+func (h *immutableHashSet[T]) Union(s Set[T]) Set[T] {
 	union := NewHashSet[T]()
 
 	s.Range(func(obj T) bool {
@@ -88,7 +82,7 @@ func (h *hashSet[T]) Union(s Set[T]) Set[T] {
 	return union
 }
 
-func (h *hashSet[T]) Intersect(s Set[T]) Set[T] {
+func (h *immutableHashSet[T]) Intersect(s Set[T]) Set[T] {
 	intersect := NewHashSet[T]()
 
 	h.Range(func(obj T) bool {
@@ -101,7 +95,7 @@ func (h *hashSet[T]) Intersect(s Set[T]) Set[T] {
 	return intersect
 }
 
-func (h *hashSet[T]) Difference(s Set[T]) Set[T] {
+func (h *immutableHashSet[T]) Difference(s Set[T]) Set[T] {
 	diff := NewHashSet[T]()
 	
 	h.Range(func(obj T) bool {
@@ -121,7 +115,7 @@ func (h *hashSet[T]) Difference(s Set[T]) Set[T] {
 	return diff
 }
 
-func (h *hashSet[T]) IsSubsetOf(s Set[T]) bool {
+func (h *immutableHashSet[T]) IsSubsetOf(s Set[T]) bool {
 	for k := range h.m {
 		if !s.Contains(k) {
 			return false

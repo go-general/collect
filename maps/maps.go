@@ -38,3 +38,9 @@ func NewHashMap[K comparable, V any]() Map[K, V] {
 		m: make(map[K]V),
 	}
 }
+
+func NewImmutableHashMap[K comparable, V any](values map[K]V) Map[K, V] {
+	return &immutableHashMap[K, V]{
+		m: values,
+	}
+}

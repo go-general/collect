@@ -41,3 +41,9 @@ func NewArrayList[T comparable](size int) List[T] {
 		values: make([]T, 0, size),
 	}
 }
+
+func NewImmutableArrayList[T comparable](values ...T) List[T] {
+	return &arrayList[T]{
+		values: values,
+	}
+}
