@@ -10,8 +10,8 @@ func TestArrayList(t *testing.T) {
 	list.Add(2)
 	list.Add(3)
 	t.Log(list.Values())
-	list.Range(func(i int, obj int) bool {
-		t.Log(i, obj)
+	list.Range(func(index int, obj int) bool {
+		t.Log(index, obj)
 		return true
 	})
 }

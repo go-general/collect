@@ -5,64 +5,64 @@ type hashSet[T comparable] struct {
 	m map[T]struct{}
 }
 
-func (h *hashSet[T]) IsEmpty() bool {
-	return len(h.m) == 0
+func (s *hashSet[T]) IsEmpty() bool {
+	return len(s.m) == 0
 }
 
-func (h *hashSet[T]) Size() int {
-	return len(h.m)
+func (s *hashSet[T]) Size() int {
+	return len(s.m)
 }
 
-func (h *hashSet[T]) Clear() {
-	h.m = make(map[T]struct{})
+func (s *hashSet[T]) Clear() {
+	s.m = make(map[T]struct{})
 }
 
-func (h *hashSet[T]) Values() []T {
-	values := make([]T, 0, len(h.m))
-	for k := range h.m {
+func (s *hashSet[T]) Values() []T {
+	values := make([]T, 0, len(s.m))
+	for k := range s.m {
 		values = append(values, k)
 	}
 	return values
 }
 
-func (h *hashSet[T]) Add(t ...T) {
+func (s *hashSet[T]) Add(t ...T) {
 	for _, v := range t {
-		h.m[v] = struct{}{}
+		s.m[v] = struct{}{}
 	}
 }
 
-func (h *hashSet[T]) Contains(t T) bool {
-	_, ok := h.m[t]
+func (s *hashSet[T]) Contains(t T) bool {
+	_, ok := s.m[t]
 	return ok
 }
 
-func (h *hashSet[T]) Remove(t T) bool {
-	_, ok := h.m[t]
+func (s *hashSet[T]) Remove(t T) bool {
+	_, ok := s.m[t]
 	if !ok {
 		return false
 	}
 
-	delete(h.m, t)
+	delete(s.m, t)
 	return true
 }
 
-func (h *hashSet[T]) Range(f func(obj T) bool) {
-	for k := range h.m {
+func (s *hashSet[T]) Range(f func(t T) bool) {
+	for k := range s.m {
 		if !f(k) {
 			break
 		}
 	}
 }
 
-func (h *hashSet[T]) Merge(s ...Set[T]) Set[T] {
+func (s *hashSet[T]) Merge(set ...Set[T]) Set[T] {
 	merged := NewHashSet[T]()
 
-	h.Range(func(obj T) bool {
+	s.Range(func(obj T) bool {
 		merged.Add(obj)
 		return true
 	})
 
-	for _, v := range s {
+	for _, v := range set {
 		v.Range(func(obj T) bool {
 			merged.Add(obj)
 			return true
@@ -72,7 +72,7 @@ func (h *hashSet[T]) Merge(s ...Set[T]) Set[T] {
 	return merged
 }
 
-func (h *hashSet[T]) Union(s Set[T]) Set[T] {
+func (s *hashSet[T]) Union(set Set[T]) Set[T] {
 	union := NewHashSet[T]()
 
 	s.Range(func(obj T) bool {
@@ -80,7 +80,7 @@ func (h *hashSet[T]) Union(s Set[T]) Set[T] {
 		return true
 	})
 
-	h.Range(func(obj T) bool {
+	set.Range(func(obj T) bool {
 		union.Add(obj)
 		return true
 	})
@@ -88,10 +88,10 @@ func (h *hashSet[T]) Union(s Set[T]) Set[T] {
 	return union
 }
 
-func (h *hashSet[T]) Intersect(s Set[T]) Set[T] {
+func (s *hashSet[T]) Intersect(set Set[T]) Set[T] {
 	intersect := NewHashSet[T]()
 
-	h.Range(func(obj T) bool {
+	set.Range(func(obj T) bool {
 		if s.Contains(obj) {
 			intersect.Add(obj)
 		}
@@ -101,18 +101,18 @@ func (h *hashSet[T]) Intersect(s Set[T]) Set[T] {
 	return intersect
 }
 
-func (h *hashSet[T]) Difference(s Set[T]) Set[T] {
+func (s *hashSet[T]) Difference(set Set[T]) Set[T] {
 	diff := NewHashSet[T]()
-	
-	h.Range(func(obj T) bool {
+
+	s.Range(func(obj T) bool {
 		if !s.Contains(obj) {
 			diff.Add(obj)
 		}
 		return true
 	})
 
-	s.Range(func(obj T) bool {
-		if !h.Contains(obj) {
+	set.Range(func(obj T) bool {
+		if !s.Contains(obj) {
 			diff.Add(obj)
 		}
 		return true
@@ -121,8 +121,8 @@ func (h *hashSet[T]) Difference(s Set[T]) Set[T] {
 	return diff
 }
 
-func (h *hashSet[T]) IsSubsetOf(s Set[T]) bool {
-	for k := range h.m {
+func (s *hashSet[T]) IsSubsetOf(set Set[T]) bool {
+	for k := range s.m {
 		if !s.Contains(k) {
 			return false
 		}

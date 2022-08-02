@@ -13,6 +13,7 @@ func (l *immutableArrayList[T]) Size() int {
 }
 
 func (l *immutableArrayList[T]) Clear() {
+	// immutable arrayList can not do clear action
 }
 
 func (l *immutableArrayList[T]) Values() []T {
@@ -56,7 +57,7 @@ func (l *immutableArrayList[T]) Set(index int, obj T) (T, bool) {
 	return old, true
 }
 
-func (l *immutableArrayList[T]) Range(f func(index int, obj T) bool) {
+func (l *immutableArrayList[T]) Range(f func(index int, t T) bool) {
 	for idx, obj := range l.values {
 		f(idx, obj)
 	}

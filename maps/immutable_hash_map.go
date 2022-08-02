@@ -4,55 +4,56 @@ type immutableHashMap[K comparable, V any] struct {
 	m map[K]V
 }
 
-func (h *immutableHashMap[K, V]) IsEmpty() bool {
-	return len(h.m) == 0
+func (m *immutableHashMap[K, V]) IsEmpty() bool {
+	return len(m.m) == 0
 }
 
-func (h *immutableHashMap[K, V]) Size() int {
-	return len(h.m)
+func (m *immutableHashMap[K, V]) Size() int {
+	return len(m.m)
 }
 
-func (h *immutableHashMap[K, V]) Clear() {
+func (m *immutableHashMap[K, V]) Clear() {
+	// immutable hashMap can not do clear action
 }
 
-func (h *immutableHashMap[K, V]) ContainsKey(key K) bool {
-	_, ok := h.m[key]
+func (m *immutableHashMap[K, V]) ContainsKey(key K) bool {
+	_, ok := m.m[key]
 	return ok
 }
 
-func (h *immutableHashMap[K, V]) Get(key K) (V, bool) {
-	val, ok := h.m[key]
+func (m *immutableHashMap[K, V]) Get(key K) (V, bool) {
+	val, ok := m.m[key]
 	return val, ok
 }
 
-func (h *immutableHashMap[K, V]) Put(key K, val V) (V, bool) {
-	oldVal, ok := h.m[key]
+func (m *immutableHashMap[K, V]) Put(key K, val V) (V, bool) {
+	oldVal, ok := m.m[key]
 	return oldVal, ok
 }
 
-func (h *immutableHashMap[K, V]) Remove(key K) (V, bool) {
-	oldVal, ok := h.m[key]
+func (m *immutableHashMap[K, V]) Remove(key K) (V, bool) {
+	oldVal, ok := m.m[key]
 	return oldVal, ok
 }
 
-func (h *immutableHashMap[K, V]) Keys() []K {
-	keys := make([]K, 0, len(h.m))
-	for k := range h.m {
+func (m *immutableHashMap[K, V]) Keys() []K {
+	keys := make([]K, 0, len(m.m))
+	for k := range m.m {
 		keys = append(keys, k)
 	}
 	return keys
 }
 
-func (h *immutableHashMap[K, V]) Values() []V {
-	values := make([]V, 0, len(h.m))
-	for _, val := range h.m {
+func (m *immutableHashMap[K, V]) Values() []V {
+	values := make([]V, 0, len(m.m))
+	for _, val := range m.m {
 		values = append(values, val)
 	}
 	return values
 }
 
-func (h *immutableHashMap[K, V]) Range(f func(k K, v V) bool) {
-	for k, v := range h.m {
+func (m *immutableHashMap[K, V]) Range(f func(k K, v V) bool) {
+	for k, v := range m.m {
 		if !f(k, v) {
 			break
 		}

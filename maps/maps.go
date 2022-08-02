@@ -1,6 +1,8 @@
 package maps
 
 import (
+	"sync"
+
 	"github.com/go-general/collect/internal/basic"
 )
 
@@ -42,5 +44,12 @@ func NewHashMap[K comparable, V any]() Map[K, V] {
 func NewImmutableHashMap[K comparable, V any](values map[K]V) Map[K, V] {
 	return &immutableHashMap[K, V]{
 		m: values,
+	}
+}
+
+func NewSyncMap[K comparable, V any]() Map[K, V] {
+	return &syncMap[K, V]{
+		m:    &sync.Map{},
+		size: 0,
 	}
 }

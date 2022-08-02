@@ -13,6 +13,7 @@ func (h *immutableHashSet[T]) Size() int {
 }
 
 func (h *immutableHashSet[T]) Clear() {
+	// immutable hashSet can not do clear action
 }
 
 func (h *immutableHashSet[T]) Values() []T {
@@ -24,6 +25,7 @@ func (h *immutableHashSet[T]) Values() []T {
 }
 
 func (h *immutableHashSet[T]) Add(t ...T) {
+	// immutable hashSet can not do Add action
 }
 
 func (h *immutableHashSet[T]) Contains(t T) bool {
@@ -40,7 +42,7 @@ func (h *immutableHashSet[T]) Remove(t T) bool {
 	return true
 }
 
-func (h *immutableHashSet[T]) Range(f func(obj T) bool) {
+func (h *immutableHashSet[T]) Range(f func(t T) bool) {
 	for k := range h.m {
 		if !f(k) {
 			break
@@ -97,7 +99,7 @@ func (h *immutableHashSet[T]) Intersect(s Set[T]) Set[T] {
 
 func (h *immutableHashSet[T]) Difference(s Set[T]) Set[T] {
 	diff := NewHashSet[T]()
-	
+
 	h.Range(func(obj T) bool {
 		if !s.Contains(obj) {
 			diff.Add(obj)

@@ -68,7 +68,7 @@ func (l *arrayList[T]) Set(index int, obj T) (T, bool) {
 	return old, true
 }
 
-func (l *arrayList[T]) Range(f func(index int, obj T) bool) {
+func (l *arrayList[T]) Range(f func(index int, t T) bool) {
 	for idx, obj := range l.values {
 		f(idx, obj)
 	}

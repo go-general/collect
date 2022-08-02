@@ -4,58 +4,58 @@ type hashMap[K comparable, V any] struct {
 	m map[K]V
 }
 
-func (h *hashMap[K, V]) IsEmpty() bool {
-	return len(h.m) == 0
+func (m *hashMap[K, V]) IsEmpty() bool {
+	return len(m.m) == 0
 }
 
-func (h *hashMap[K, V]) Size() int {
-	return len(h.m)
+func (m *hashMap[K, V]) Size() int {
+	return len(m.m)
 }
 
-func (h *hashMap[K, V]) Clear() {
-	h.m = make(map[K]V)
+func (m *hashMap[K, V]) Clear() {
+	m.m = make(map[K]V)
 }
 
-func (h *hashMap[K, V]) ContainsKey(key K) bool {
-	_, ok := h.m[key]
+func (m *hashMap[K, V]) ContainsKey(key K) bool {
+	_, ok := m.m[key]
 	return ok
 }
 
-func (h *hashMap[K, V]) Get(key K) (V, bool) {
-	val, ok := h.m[key]
+func (m *hashMap[K, V]) Get(key K) (V, bool) {
+	val, ok := m.m[key]
 	return val, ok
 }
 
-func (h *hashMap[K, V]) Put(key K, val V) (V, bool) {
-	oldVal, ok := h.m[key]
-	h.m[key] = val
+func (m *hashMap[K, V]) Put(key K, val V) (V, bool) {
+	oldVal, ok := m.m[key]
+	m.m[key] = val
 	return oldVal, ok
 }
 
-func (h *hashMap[K, V]) Remove(key K) (V, bool) {
-	oldVal, ok := h.m[key]
-	delete(h.m, key)
+func (m *hashMap[K, V]) Remove(key K) (V, bool) {
+	oldVal, ok := m.m[key]
+	delete(m.m, key)
 	return oldVal, ok
 }
 
-func (h *hashMap[K, V]) Keys() []K {
-	keys := make([]K, 0, len(h.m))
-	for k := range h.m {
+func (m *hashMap[K, V]) Keys() []K {
+	keys := make([]K, 0, len(m.m))
+	for k := range m.m {
 		keys = append(keys, k)
 	}
 	return keys
 }
 
-func (h *hashMap[K, V]) Values() []V {
-	values := make([]V, 0, len(h.m))
-	for _, val := range h.m {
+func (m *hashMap[K, V]) Values() []V {
+	values := make([]V, 0, len(m.m))
+	for _, val := range m.m {
 		values = append(values, val)
 	}
 	return values
 }
 
-func (h *hashMap[K, V]) Range(f func(k K, v V) bool) {
-	for k, v := range h.m {
+func (m *hashMap[K, V]) Range(f func(k K, v V) bool) {
+	for k, v := range m.m {
 		if !f(k, v) {
 			break
 		}
