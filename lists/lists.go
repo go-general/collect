@@ -36,9 +36,9 @@ type List[T any] interface {
 	Range(func(index int, t T) bool)
 }
 
-func NewArrayList[T comparable](size int) List[T] {
+func NewArrayList[T comparable]() List[T] {
 	return &arrayList[T]{
-		values: make([]T, 0, size),
+		values: make([]T, 0, 0),
 	}
 }
 
@@ -48,8 +48,8 @@ func NewImmutableArrayList[T comparable](values ...T) List[T] {
 	}
 }
 
-func NewSyncList[T comparable](size int) List[T] {
+func NewSyncList[T comparable]() List[T] {
 	return &syncList[T]{
-		values: make([]T, 0, size),
+		values: make([]T, 0, 0),
 	}
 }

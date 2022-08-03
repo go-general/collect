@@ -7,22 +7,16 @@ import (
 )
 
 func Maps() {
-	m := maps.NewHashMap[string, int64]()
-	m.Put("a", 1)
-	m.Put("b", 2)
-	m.Put("c", 3)
+	m := maps.NewHashMap[int, int]()
+	m.Put(1, 1)
+	m.Put(2, 2)
+	m.Put(3, 3)
 
-	m.Range(func(k string, v int64) bool {
-		fmt.Println(k, v)
-		return true
-	})
-
-	m.Remove("b")
-
-	m.Range(func(k string, v int64) bool {
-		fmt.Println(k, v)
-		return true
-	})
-
+	fmt.Println(m.Keys())
 	fmt.Println(m.Values())
+
+	m.Range(func(k int, v int) bool {
+		fmt.Printf("key: %d, value: %d\n", k, v)
+		return true
+	})
 }
