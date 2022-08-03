@@ -1,17 +1,30 @@
 package sets
 
 import (
+	"reflect"
 	"testing"
 )
 
 func TestHashSet(t *testing.T) {
-	set := NewHashSet[int]()
-	t.Log(set.IsEmpty())
+	tests := []struct {
+		input    []int
+		expected []int
+	}{
+		{
+			input:    []int{1, 2, 3},
+			expected: []int{1, 2, 3},
+		},
+	}
 
-	set.Add(1)
-	t.Log(set.IsEmpty())
+	for _, test := range tests {
+		set := NewHashSet[int]()
+		for _, d := range test.input {
+			set.Add(d)
+		}
+		got := set.Values()
 
-	set.Add(2)
-	set.Add(3)
-	t.Log(set.Size())
+		if !reflect.DeepEqual(got, test.expected) {
+			t.Fatalf("unexpected values for set, expected: %v, but got: %v", test.expected, got)
+		}
+	}
 }

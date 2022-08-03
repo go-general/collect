@@ -1,17 +1,30 @@
 package lists
 
 import (
+	"reflect"
 	"testing"
 )
 
 func TestArrayList(t *testing.T) {
-	list := NewArrayList[int](10)
-	list.Add(1)
-	list.Add(2)
-	list.Add(3)
-	t.Log(list.Values())
-	list.Range(func(index int, obj int) bool {
-		t.Log(index, obj)
-		return true
-	})
+	tests := []struct {
+		input    []int
+		expected []int
+	}{
+		{
+			input:    []int{1, 2, 3},
+			expected: []int{1, 2, 3},
+		},
+	}
+
+	for _, test := range tests {
+		list := NewArrayList[int]()
+		for _, d := range test.input {
+			list.Add(d)
+		}
+		got := list.Values()
+
+		if !reflect.DeepEqual(got, test.expected) {
+			t.Fatalf("unexpected values for arrayList, expected: %v, but got: %v", test.expected, got)
+		}
+	}
 }

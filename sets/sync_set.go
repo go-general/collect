@@ -25,15 +25,17 @@ func (s *syncSet[T]) Clear() {
 func (s *syncSet[T]) Values() []T {
 	values := make([]T, 0, s.size)
 	s.m.Range(func(k, v any) bool {
-		values = append(values, k)
+		values = append(values, k.(T))
 		return true
 	})
 	return values
 }
 
 func (s *syncSet[T]) Add(t ...T) {
-	s.m.Store(t, struct{}{})
-	s.size++
+	for _, v := range t {
+		s.m.Store(v, struct{}{})
+		s.size++
+	}
 }
 
 func (s *syncSet[T]) Contains(t T) bool {
@@ -46,14 +48,13 @@ func (s *syncSet[T]) Remove(t T) bool {
 	if !ok {
 		return false
 	}
-
 	s.size--
 	return true
 }
 
 func (s *syncSet[T]) Range(f func(t T) bool) {
 	s.m.Range(func(k, v any) bool {
-		return f(k)
+		return f(k.(T))
 	})
 }
 
@@ -126,7 +127,7 @@ func (s *syncSet[T]) Difference(set Set[T]) Set[T] {
 
 func (s *syncSet[T]) IsSubsetOf(set Set[T]) bool {
 	s.m.Range(func(k, v any) bool {
-		if !s.Contains(k) {
+		if !s.Contains(k.(T)) {
 			return false
 		}
 		return true

@@ -1,17 +1,32 @@
 package sets
 
 import (
+	"reflect"
+	"sort"
 	"testing"
 )
 
 func TestSyncSet(t *testing.T) {
-	set := NewSyncSet[int]()
-	t.Log(set.IsEmpty())
+	tests := []struct {
+		input    []int
+		expected []int
+	}{
+		{
+			input:    []int{1, 2, 3},
+			expected: []int{1, 2, 3},
+		},
+	}
 
-	set.Add(1)
-	t.Log(set.IsEmpty())
+	for _, test := range tests {
+		set := NewSyncSet[int]()
+		for _, d := range test.input {
+			set.Add(d)
+		}
 
-	set.Add(2)
-	set.Add(3)
-	t.Log(set.Size())
+		got := set.Values()
+		sort.Ints(got)
+		if !reflect.DeepEqual(got, test.expected) {
+			t.Fatalf("unexpected values for syncSet, expected: %v, but got: %v", test.expected, set.Values())
+		}
+	}
 }
