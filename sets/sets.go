@@ -1,8 +1,6 @@
 package sets
 
 import (
-	"sync"
-
 	"github.com/go-general/collect/internal/basic"
 )
 
@@ -57,7 +55,6 @@ func NewImmutableHashSet[T comparable](values ...T) Set[T] {
 
 func NewSyncSet[T comparable]() Set[T] {
 	return &syncSet[T]{
-		m:    &sync.Map{},
-		size: 0,
+		m: make(map[T]struct{}),
 	}
 }

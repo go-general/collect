@@ -34,8 +34,12 @@ func (m *hashMap[K, V]) Put(key K, val V) (V, bool) {
 
 func (m *hashMap[K, V]) Remove(key K) (V, bool) {
 	oldVal, ok := m.m[key]
+	if !ok {
+		return oldVal, false
+	}
+
 	delete(m.m, key)
-	return oldVal, ok
+	return oldVal, true
 }
 
 func (m *hashMap[K, V]) Keys() []K {

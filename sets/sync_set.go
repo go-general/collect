@@ -5,57 +5,81 @@ import (
 )
 
 type syncSet[T comparable] struct {
-	m    *sync.Map
-	size int
+	lock sync.RWMutex
+	m    map[T]struct{}
 }
 
 func (s *syncSet[T]) IsEmpty() bool {
-	return s.size == 0
+	s.lock.RLock()
+	defer s.lock.RUnlock()
+
+	return len(s.m) == 0
 }
 
 func (s *syncSet[T]) Size() int {
-	return s.size
+	s.lock.RLock()
+	defer s.lock.RUnlock()
+
+	return len(s.m)
 }
 
 func (s *syncSet[T]) Clear() {
-	s.m = &sync.Map{}
-	s.size = 0
+	s.lock.Lock()
+	defer s.lock.Unlock()
+
+	s.m = make(map[T]struct{})
 }
 
 func (s *syncSet[T]) Values() []T {
-	values := make([]T, 0, s.size)
-	s.m.Range(func(k, v any) bool {
-		values = append(values, k.(T))
-		return true
-	})
+	s.lock.RLock()
+	defer s.lock.RUnlock()
+
+	values := make([]T, 0, len(s.m))
+	for k := range s.m {
+		values = append(values, k)
+	}
 	return values
 }
 
 func (s *syncSet[T]) Add(t ...T) {
+	s.lock.Lock()
+	defer s.lock.Unlock()
+
 	for _, v := range t {
-		s.m.Store(v, struct{}{})
-		s.size++
+		s.m[v] = struct{}{}
 	}
 }
 
 func (s *syncSet[T]) Contains(t T) bool {
-	_, ok := s.m.Load(t)
+	s.lock.RLock()
+	defer s.lock.RUnlock()
+
+	_, ok := s.m[t]
 	return ok
 }
 
 func (s *syncSet[T]) Remove(t T) bool {
-	_, ok := s.m.LoadAndDelete(t)
+	s.lock.Lock()
+	defer s.lock.Unlock()
+
+	_, ok := s.m[t]
 	if !ok {
 		return false
 	}
-	s.size--
-	return true
+
+	delete(s.m, t)
+	return ok
 }
 
 func (s *syncSet[T]) Range(f func(t T) bool) {
-	s.m.Range(func(k, v any) bool {
-		return f(k.(T))
-	})
+	s.lock.RLock()
+	defer s.lock.RUnlock()
+
+	for k := range s.m {
+		if !f(k) {
+			return
+		}
+	}
 }
 
 func (s *syncSet[T]) Merge(set ...Set[T]) Set[T] {
@@ -126,8 +150,8 @@ func (s *syncSet[T]) Difference(set Set[T]) Set[T] {
 }
 
 func (s *syncSet[T]) IsSubsetOf(set Set[T]) bool {
-	s.m.Range(func(k, v any) bool {
-		if !s.Contains(k.(T)) {
+	s.Range(func(k T) bool {
+		if !s.Contains(k) {
 			return false
 		}
 		return true
