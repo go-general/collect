@@ -42,8 +42,13 @@ func NewHashMap[K comparable, V any]() Map[K, V] {
 }
 
 func NewImmutableHashMap[K comparable, V any](values map[K]V) Map[K, V] {
+	vals := make(map[K]V, len(values))
+	for k, v := range values {
+		vals[k] = v
+	}
+
 	return &immutableHashMap[K, V]{
-		m: values,
+		m: vals,
 	}
 }
 

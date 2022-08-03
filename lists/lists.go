@@ -43,8 +43,11 @@ func NewArrayList[T comparable]() List[T] {
 }
 
 func NewImmutableArrayList[T comparable](values ...T) List[T] {
+	vals := make([]T, len(values))
+	copy(vals, values)
+
 	return &immutableArrayList[T]{
-		values: values,
+		values: vals,
 	}
 }
 

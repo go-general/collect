@@ -1,0 +1,3 @@
+.PHONY: test
+test: ## Run unit tests.
+	go test ./...
