@@ -23,17 +23,6 @@ type Set[T comparable] interface {
 
 	// Range ranges value in set.
 	Range(func(t T) bool)
-
-	// Merge merges all values to this set.
-	Merge(set ...Set[T]) Set[T]
-
-	Union(set Set[T]) Set[T]
-
-	Intersect(set Set[T]) Set[T]
-
-	Difference(set Set[T]) Set[T]
-
-	IsSubsetOf(set Set[T]) bool
 }
 
 func NewHashSet[T comparable]() Set[T] {
@@ -57,4 +46,83 @@ func NewSyncSet[T comparable]() Set[T] {
 	return &syncSet[T]{
 		m: make(map[T]struct{}),
 	}
+}
+
+// Union combines all objects in origin and target set.
+func Union[T comparable](origin, target Set[T]) Set[T] {
+	union := NewHashSet[T]()
+
+	if origin != nil {
+		origin.Range(func(obj T) bool {
+			union.Add(obj)
+			return true
+		})
+	}
+
+	if target != nil {
+		target.Range(func(obj T) bool {
+			union.Add(obj)
+			return true
+		})
+	}
+
+	return union
+}
+
+// Intersect chooses same objects in both origin and target set.
+func Intersect[T comparable](origin, target Set[T]) Set[T] {
+	intersect := NewHashSet[T]()
+	if origin == nil || target == nil {
+		return intersect
+	}
+
+	origin.Range(func(obj T) bool {
+		if target.Contains(obj) {
+			intersect.Add(obj)
+		}
+		return true
+	})
+
+	return intersect
+}
+
+// Difference chooses objects in target set but not in origin set.
+func Difference[T comparable](origin, target Set[T]) Set[T] {
+	diff := NewHashSet[T]()
+	if target == nil {
+		return diff
+	}
+
+	target.Range(func(obj T) bool {
+		if origin == nil {
+			diff.Add(obj)
+		} else if !origin.Contains(obj) {
+			diff.Add(obj)
+		}
+		return true
+	})
+
+	return diff
+}
+
+// IsSubsetOf checks if all objects in origin set contains in target set.
+func IsSubsetOf[T comparable](origin, target Set[T]) bool {
+	if origin == nil {
+		return true
+	}
+
+	if target == nil {
+		return false
+	}
+
+	isSubSet := true
+	origin.Range(func(obj T) bool {
+		if target.Contains(obj) {
+			return true
+		}
+		isSubSet = false
+		return false
+	})
+
+	return isSubSet
 }
