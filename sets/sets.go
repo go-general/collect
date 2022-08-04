@@ -4,6 +4,10 @@ import (
 	"github.com/go-general/collect/internal/basic"
 )
 
+const (
+	defaultSize = 16
+)
+
 type Set[T comparable] interface {
 	basic.Collector
 
@@ -27,7 +31,24 @@ type Set[T comparable] interface {
 
 func NewHashSet[T comparable]() Set[T] {
 	return &hashSet[T]{
-		m: make(map[T]struct{}),
+		m: make(map[T]struct{}, defaultSize),
+	}
+}
+
+func NewHashSetWithSize[T comparable](size int) Set[T] {
+	return &hashSet[T]{
+		m: make(map[T]struct{}, size),
+	}
+}
+
+func NewHashSetWithValues[T comparable](values ...T) Set[T] {
+	m := make(map[T]struct{}, len(values))
+	for _, val := range values {
+		m[val] = struct{}{}
+	}
+
+	return &hashSet[T]{
+		m: m,
 	}
 }
 
@@ -44,7 +65,24 @@ func NewImmutableHashSet[T comparable](values ...T) Set[T] {
 
 func NewSyncSet[T comparable]() Set[T] {
 	return &syncSet[T]{
-		m: make(map[T]struct{}),
+		m: make(map[T]struct{}, defaultSize),
+	}
+}
+
+func NewSyncSetWithSize[T comparable](size int) Set[T] {
+	return &syncSet[T]{
+		m: make(map[T]struct{}, size),
+	}
+}
+
+func NewSyncSetWithValues[T comparable](values ...T) Set[T] {
+	m := make(map[T]struct{}, len(values))
+	for _, val := range values {
+		m[val] = struct{}{}
+	}
+
+	return &syncSet[T]{
+		m: m,
 	}
 }
 

@@ -4,6 +4,10 @@ import (
 	"github.com/go-general/collect/internal/basic"
 )
 
+const (
+	defaultSize = 16
+)
+
 type List[T any] interface {
 	basic.Collector
 
@@ -38,7 +42,22 @@ type List[T any] interface {
 
 func NewArrayList[T comparable]() List[T] {
 	return &arrayList[T]{
-		values: make([]T, 0, 0),
+		values: make([]T, 0, defaultSize),
+	}
+}
+
+func NewArrayListWithSize[T comparable](size int) List[T] {
+	return &arrayList[T]{
+		values: make([]T, 0, size),
+	}
+}
+
+func NewArrayListWithValues[T comparable](values ...T) List[T] {
+	vals := make([]T, len(values))
+	copy(vals, values)
+
+	return &arrayList[T]{
+		values: vals,
 	}
 }
 
@@ -53,6 +72,21 @@ func NewImmutableArrayList[T comparable](values ...T) List[T] {
 
 func NewSyncList[T comparable]() List[T] {
 	return &syncList[T]{
-		values: make([]T, 0, 0),
+		values: make([]T, 0, defaultSize),
+	}
+}
+
+func NewSyncListWithSize[T comparable](size int) List[T] {
+	return &syncList[T]{
+		values: make([]T, 0, size),
+	}
+}
+
+func NewSyncListWithValues[T comparable](values ...T) List[T] {
+	vals := make([]T, len(values))
+	copy(vals, values)
+
+	return &syncList[T]{
+		values: vals,
 	}
 }

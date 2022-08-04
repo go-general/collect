@@ -4,6 +4,10 @@ import (
 	"github.com/go-general/collect/internal/basic"
 )
 
+const (
+	defaultSize = 16
+)
+
 type Map[K comparable, V any] interface {
 	basic.Collector
 
@@ -35,7 +39,13 @@ type Map[K comparable, V any] interface {
 
 func NewHashMap[K comparable, V any]() Map[K, V] {
 	return &hashMap[K, V]{
-		m: make(map[K]V),
+		m: make(map[K]V, defaultSize),
+	}
+}
+
+func NewHashMapWithSize[K comparable, V any](size int) Map[K, V] {
+	return &hashMap[K, V]{
+		m: make(map[K]V, size),
 	}
 }
 
@@ -52,6 +62,12 @@ func NewImmutableHashMap[K comparable, V any](values map[K]V) Map[K, V] {
 
 func NewSyncMap[K comparable, V any]() Map[K, V] {
 	return &syncMap[K, V]{
-		m: make(map[K]V),
+		m: make(map[K]V, defaultSize),
+	}
+}
+
+func NewSyncMapWithSize[K comparable, V any](size int) Map[K, V] {
+	return &syncMap[K, V]{
+		m: make(map[K]V, size),
 	}
 }
